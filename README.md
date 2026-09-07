@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>食堂日记 - 记录每一天的美味</title>
+    <title>这一天在FDU吃了什么</title>
     <style>
         :root {
-            --primary: #FF6B35;
-            --primary-light: #FF8F5E;
-            --primary-dark: #E5531F;
-            --bg: #FFF8F0;
+            --primary: #1E88E5;
+            --primary-light: #64B5F6;
+            --primary-dark: #1565C0;
+            --bg: #F5F9FF;
             --card-bg: #FFFFFF;
-            --text: #3D2C1E;
-            --text-secondary: #8B7B6E;
-            --border: #F0E0D0;
+            --text: #1E2A3A;
+            --text-secondary: #6B7A8C;
+            --border: #DDE6F0;
             --note-color: #FF3B30;
             --note-bg: #FFF0EE;
             --note-border: #FFD4D1;
-            --shadow: 0 4px 20px rgba(255, 107, 53, 0.1);
-            --shadow-lg: 0 8px 40px rgba(255, 107, 53, 0.18);
+            --shadow: 0 4px 20px rgba(30, 136, 229, 0.1);
+            --shadow-lg: 0 8px 40px rgba(30, 136, 229, 0.18);
             --radius: 16px;
             --radius-sm: 10px;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -47,7 +47,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(255, 248, 240, 0.92);
+            background: rgba(245, 249, 255, 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
@@ -55,23 +55,29 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
         }
         .top-bar .logo {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .top-bar .logo .icon {
-            font-size: 26px;
+            font-size: 24px;
+            flex-shrink: 0;
         }
         .top-bar .actions {
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-shrink: 0;
         }
         .icon-btn {
             width: 42px;
@@ -92,7 +98,7 @@
         }
         .icon-btn:active {
             transform: scale(0.9);
-            box-shadow: 0 2px 10px rgba(255, 107, 53, 0.15);
+            box-shadow: 0 2px 10px rgba(30, 136, 229, 0.15);
         }
 
         /* ===== 日历区域 ===== */
@@ -112,6 +118,7 @@
             font-size: 19px;
             font-weight: 700;
             letter-spacing: 0.3px;
+            color: var(--primary-dark);
         }
         .calendar-header .nav-btns {
             display: flex;
@@ -174,17 +181,17 @@
             padding: 4px 2px;
         }
         .calendar-day:hover {
-            background: #FFF0E6;
+            background: #E3F2FD;
         }
         .calendar-day.other-month {
-            color: #CCC0B5;
+            color: #B0C4DE;
             opacity: 0.55;
         }
         .calendar-day.today {
             background: var(--primary);
             color: #fff;
             font-weight: 700;
-            box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+            box-shadow: 0 4px 14px rgba(30, 136, 229, 0.35);
         }
         .calendar-day.today:hover {
             background: var(--primary-dark);
@@ -192,7 +199,7 @@
         .calendar-day.selected {
             outline: 2.5px solid var(--primary);
             outline-offset: 1px;
-            background: #FFF0E6;
+            background: #E3F2FD;
         }
         .calendar-day.today.selected {
             outline-color: var(--primary-dark);
@@ -215,7 +222,7 @@
             font-size: 9px;
             font-weight: 700;
             color: var(--primary);
-            background: #FFF0E6;
+            background: #E3F2FD;
             border-radius: 8px;
             padding: 1px 5px;
             min-width: 16px;
@@ -240,6 +247,7 @@
             align-items: center;
             gap: 8px;
             padding: 0 4px;
+            color: var(--primary-dark);
         }
         .record-card {
             background: var(--card-bg);
@@ -250,10 +258,17 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            border: 1px solid #F8EDE4;
+            border: 1px solid #EBF0F8;
         }
         .record-card:active {
             transform: scale(0.98);
+        }
+        .record-card .food-name {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--text);
+            letter-spacing: -0.3px;
         }
         .record-card .photo {
             width: 100%;
@@ -261,7 +276,7 @@
             object-fit: cover;
             border-radius: var(--radius-sm);
             margin-bottom: 10px;
-            background: #F5F0EA;
+            background: #F5F9FF;
         }
         .record-card .tags-row {
             display: flex;
@@ -277,7 +292,7 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            background: #FFF0E6;
+            background: #E3F2FD;
             color: var(--primary-dark);
             letter-spacing: 0.2px;
         }
@@ -320,10 +335,20 @@
             flex-shrink: 0;
             margin-top: 1px;
         }
-        .record-card .delete-btn {
+        .record-card .card-actions {
             position: absolute;
             top: 12px;
             right: 12px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .record-card:hover .card-actions,
+        .record-card .card-actions:focus-within {
+            opacity: 1;
+        }
+        .record-card .action-btn {
             width: 34px;
             height: 34px;
             border-radius: 50%;
@@ -336,15 +361,13 @@
             justify-content: center;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
-            opacity: 0;
             color: #E53935;
             user-select: none;
         }
-        .record-card:hover .delete-btn,
-        .record-card .delete-btn:focus {
-            opacity: 1;
+        .record-card .action-btn.edit-btn {
+            color: var(--primary);
         }
-        .record-card .delete-btn:active {
+        .record-card .action-btn:active {
             transform: scale(0.85);
         }
         .record-card .record-time {
@@ -382,7 +405,7 @@
             color: #fff;
             font-size: 32px;
             cursor: pointer;
-            box-shadow: 0 6px 24px rgba(255, 107, 53, 0.45);
+            box-shadow: 0 6px 24px rgba(30, 136, 229, 0.45);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
@@ -393,7 +416,7 @@
         }
         .fab:active {
             transform: translateX(-50%) scale(0.88);
-            box-shadow: 0 3px 12px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 3px 12px rgba(30, 136, 229, 0.3);
             background: var(--primary-dark);
         }
         .fab .fab-icon {
@@ -419,22 +442,12 @@
             display: flex;
         }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         @keyframes slideUp {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         .modal-sheet {
             background: var(--card-bg);
@@ -451,7 +464,7 @@
             width: 40px;
             height: 4px;
             border-radius: 4px;
-            background: #E0D5CC;
+            background: #D0DCEB;
             margin: 0 auto 16px;
             flex-shrink: 0;
         }
@@ -461,6 +474,7 @@
             margin-bottom: 18px;
             text-align: center;
             letter-spacing: -0.3px;
+            color: var(--primary-dark);
         }
 
         /* ===== 表单 ===== */
@@ -498,7 +512,7 @@
         }
         .form-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.12);
         }
         textarea.form-input {
             min-height: 70px;
@@ -530,7 +544,7 @@
             background: var(--primary);
             color: #fff;
             border-color: var(--primary);
-            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 3px 10px rgba(30, 136, 229, 0.3);
         }
         .tag-option.tag-canteen.selected {
             background: #2E7D32;
@@ -624,7 +638,7 @@
         }
         .photo-upload:active {
             border-color: var(--primary);
-            background: #FFF8F0;
+            background: #F5F9FF;
         }
         .photo-upload .upload-icon {
             font-size: 32px;
@@ -709,7 +723,7 @@
         }
         .search-panel .search-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.12);
         }
         .search-panel .filter-section {
             margin-top: 16px;
@@ -787,7 +801,7 @@
             font-family: inherit;
         }
         .clear-search button:active {
-            background: #F5F0EA;
+            background: #E3F2FD;
             transform: scale(0.95);
         }
 
@@ -797,7 +811,7 @@
             bottom: 110px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: #3D2C1E;
+            background: #1E2A3A;
             color: #fff;
             padding: 12px 22px;
             border-radius: 24px;
@@ -818,45 +832,18 @@
 
         /* 响应式 */
         @media (min-width: 600px) {
-            .calendar-container {
-                padding: 24px 20px 8px;
-            }
-            .day-records {
-                padding: 12px 20px 24px;
-            }
-            .record-card {
-                padding: 20px;
-            }
-            .modal-sheet {
-                border-radius: 24px;
-                margin-bottom: 20px;
-                max-height: 80vh;
-            }
-            .modal-overlay {
-                align-items: center;
-                padding: 20px;
-            }
+            .calendar-container { padding: 24px 20px 8px; }
+            .day-records { padding: 12px 20px 24px; }
+            .record-card { padding: 20px; }
+            .modal-sheet { border-radius: 24px; margin-bottom: 20px; max-height: 80vh; }
+            .modal-overlay { align-items: center; padding: 20px; }
         }
         @media (max-width: 380px) {
-            .calendar-day {
-                font-size: 13px;
-                border-radius: 10px;
-            }
-            .calendar-day .count-badge {
-                font-size: 8px;
-                padding: 0 4px;
-            }
-            .top-bar .logo {
-                font-size: 18px;
-            }
-            .record-card .delete-btn {
-                opacity: 1;
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-                top: 8px;
-                right: 8px;
-            }
+            .calendar-day { font-size: 13px; border-radius: 10px; }
+            .calendar-day .count-badge { font-size: 8px; padding: 0 4px; }
+            .top-bar .logo { font-size: 16px; }
+            .record-card .card-actions { opacity: 1; }
+            .record-card .action-btn { width: 30px; height: 30px; font-size: 14px; top: 8px; right: 8px; }
         }
     </style>
 </head>
@@ -865,7 +852,7 @@
     <!-- 顶部导航 -->
     <header class="top-bar">
         <div class="logo">
-            <span class="icon">🍜</span> 食堂日记
+            <span class="icon">🍜</span> 这一天在FDU吃了什么
         </div>
         <div class="actions">
             <button class="icon-btn" id="btnSearch" title="搜索" aria-label="搜索">🔍</button>
@@ -893,7 +880,7 @@
 
     <!-- 搜索面板 -->
     <div class="search-panel" id="searchPanel" style="display:none;">
-        <input type="text" class="search-input" id="searchKeyword" placeholder="🔍 搜索评价、食堂、类型..." autocomplete="off">
+        <input type="text" class="search-input" id="searchKeyword" placeholder="🔍 搜索食物名称、评价、食堂、类型..." autocomplete="off">
         <div class="filter-section">
             <div class="filter-label">🏫 食堂名称</div>
             <div class="filter-tags" id="filterCanteens"></div>
@@ -927,11 +914,16 @@
         <span class="fab-icon">+</span>
     </button>
 
-    <!-- 添加记录模态框 -->
+    <!-- 添加/编辑记录模态框 -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-sheet" id="modalSheet">
             <div class="modal-handle"></div>
-            <div class="modal-title">🍽️ 记录今天的美味</div>
+            <div class="modal-title" id="modalTitle">🍽️ 记录今天的美味</div>
+
+            <div class="form-group">
+                <label>🍛 食物名称</label>
+                <input type="text" class="form-input" id="foodNameInput" placeholder="例如：红烧肉、珍珠奶茶..." autocomplete="off">
+            </div>
 
             <div class="form-group">
                 <label>📸 照片</label>
@@ -990,9 +982,9 @@
     <script>
         (function() {
             // ===== 数据存储键名 =====
-            const STORAGE_KEY = 'canteen_diary_data_v1';
-            const CUSTOM_CANTEENS_KEY = 'canteen_diary_custom_canteens_v1';
-            const CUSTOM_MEALS_KEY = 'canteen_diary_custom_meals_v1';
+            const STORAGE_KEY = 'fdu_eat_diary_v1';
+            const CUSTOM_CANTEENS_KEY = 'fdu_eat_diary_canteens_v1';
+            const CUSTOM_MEALS_KEY = 'fdu_eat_diary_meals_v1';
 
             // ===== 默认数据 =====
             const DEFAULT_CANTEENS = ['北食', '南食', '旦苑', '其他'];
@@ -1000,17 +992,19 @@
             const DEFAULT_PORTIONS = ['量少', '正好', '量多'];
 
             // ===== 状态 =====
-            let allData = {}; // { 'YYYY-MM-DD': [record, ...] }
+            let allData = {};
             let customCanteens = [];
             let customMealTypes = [];
             let currentYear = new Date().getFullYear();
             let currentMonth = new Date().getMonth();
-            let selectedDate = formatDate(new Date()); // YYYY-MM-DD
+            let selectedDate = formatDate(new Date());
             let isSearchMode = false;
             let selectedCanteen = null;
             let selectedMealType = null;
             let selectedPortion = null;
             let photoDataUrl = null;
+            let editingRecordId = null;
+            let editingDate = null;
             let activeSearchFilters = {
                 canteen: null,
                 mealType: null,
@@ -1019,7 +1013,6 @@
                 keyword: ''
             };
 
-            // ===== 工具函数 =====
             function formatDate(date) {
                 const y = date.getFullYear();
                 const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -1089,7 +1082,6 @@
                 toast._timeout = setTimeout(() => toast.classList.remove('show'), 2200);
             }
 
-            // ===== 照片压缩 =====
             function compressImage(file, callback) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -1117,7 +1109,6 @@
                 reader.readAsDataURL(file);
             }
 
-            // ===== 日历渲染 =====
             function renderCalendar() {
                 const monthLabel = document.getElementById('monthLabel');
                 monthLabel.textContent = `${currentYear}年${currentMonth + 1}月`;
@@ -1173,12 +1164,10 @@
                         if (isOtherMonth) {
                             if (dayNum <= 0) {
                                 currentMonth--;
-                                if (currentMonth < 0) { currentMonth = 11;
-                                    currentYear--; }
+                                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
                             } else {
                                 currentMonth++;
-                                if (currentMonth > 11) { currentMonth = 0;
-                                    currentYear++; }
+                                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
                             }
                         }
                         renderCalendar();
@@ -1207,7 +1196,6 @@
                 performSearch();
             }
 
-            // ===== 日期记录渲染 =====
             function renderDayRecords() {
                 const titleEl = document.getElementById('recordsTitle');
                 const listEl = document.getElementById('recordsList');
@@ -1226,11 +1214,14 @@
                 }
 
                 listEl.innerHTML = records.map((rec, idx) => {
-                    const timeStr = rec.timestamp ? new Date(rec.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit',
-                        minute: '2-digit' }) : '';
+                    const timeStr = rec.timestamp ? new Date(rec.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) : '';
                     return `
                         <div class="record-card" data-record-id="${rec.id}">
-                            <button class="delete-btn" data-delete-id="${rec.id}" title="删除">🗑️</button>
+                            <div class="card-actions">
+                                <button class="action-btn edit-btn" data-edit-id="${rec.id}" title="编辑">✏️</button>
+                                <button class="action-btn" data-delete-id="${rec.id}" title="删除">🗑️</button>
+                            </div>
+                            ${rec.name ? `<div class="food-name">🍛 ${escapeHtml(rec.name)}</div>` : ''}
                             ${rec.photo ? `<img class="photo" src="${rec.photo}" alt="食物照片" loading="lazy">` : ''}
                             <div class="tags-row">
                                 <span class="tag tag-canteen">🏫 ${escapeHtml(rec.canteen)}</span>
@@ -1244,12 +1235,18 @@
                     `;
                 }).join('');
 
-                // 绑定删除事件
-                listEl.querySelectorAll('.delete-btn').forEach(btn => {
+                listEl.querySelectorAll('[data-delete-id]').forEach(btn => {
                     btn.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const id = this.getAttribute('data-delete-id');
                         deleteRecord(selectedDate, id);
+                    });
+                });
+                listEl.querySelectorAll('[data-edit-id]').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = this.getAttribute('data-edit-id');
+                        openEditModal(selectedDate, id);
                     });
                 });
             }
@@ -1273,7 +1270,6 @@
                 return div.innerHTML;
             }
 
-            // ===== 添加记录模态框 =====
             function resetForm() {
                 photoDataUrl = null;
                 document.getElementById('photoPreview').style.display = 'none';
@@ -1285,37 +1281,36 @@
                 selectedCanteen = null;
                 selectedMealType = null;
                 selectedPortion = null;
+                document.getElementById('foodNameInput').value = '';
                 document.getElementById('reviewInput').value = '';
                 document.getElementById('noteInput').value = '';
                 document.getElementById('customCanteenRow').style.display = 'none';
                 document.getElementById('customMealRow').style.display = 'none';
                 document.getElementById('customCanteenInput').value = '';
                 document.getElementById('customMealInput').value = '';
+                editingRecordId = null;
+                editingDate = null;
                 renderTagSelectors();
             }
 
             function renderTagSelectors() {
-                // 食堂选择器
                 const canteenSel = document.getElementById('canteenSelector');
                 const allCanteens = getAllCanteens();
                 canteenSel.innerHTML = allCanteens.map(c => `
                     <button class="tag-option tag-canteen ${selectedCanteen===c?'selected':''}" data-value="${escapeHtml(c)}">${escapeHtml(c)}</button>
                 `).join('') + `<button class="tag-option" data-custom="canteen" style="border-style:dashed;">+ 自定义</button>`;
 
-                // 用餐类型选择器
                 const mealSel = document.getElementById('mealTypeSelector');
                 const allMeals = getAllMealTypes();
                 mealSel.innerHTML = allMeals.map(m => `
                     <button class="tag-option tag-meal ${selectedMealType===m?'selected':''}" data-value="${escapeHtml(m)}">${escapeHtml(m)}</button>
                 `).join('') + `<button class="tag-option" data-custom="meal" style="border-style:dashed;">+ 自定义</button>`;
 
-                // 分量选择器
                 const portionSel = document.getElementById('portionSelector');
                 portionSel.innerHTML = DEFAULT_PORTIONS.map(p => `
                     <button class="tag-option tag-portion ${selectedPortion===p?'selected':''}" data-value="${escapeHtml(p)}">${escapeHtml(p)}</button>
                 `).join('') + `<button class="tag-option" data-clear="portion" style="border-style:dotted;color:#B0A49A;">✕ 不选</button>`;
 
-                // 绑定事件
                 canteenSel.querySelectorAll('.tag-option').forEach(btn => {
                     btn.addEventListener('click', function() {
                         if (this.hasAttribute('data-custom')) {
@@ -1356,6 +1351,41 @@
 
             function openAddModal() {
                 resetForm();
+                document.getElementById('modalTitle').textContent = '🍽️ 记录今天的美味';
+                document.getElementById('btnSubmit').textContent = '保存记录 ✓';
+                document.getElementById('modalOverlay').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function openEditModal(dateStr, recordId) {
+                const records = allData[dateStr] || [];
+                const record = records.find(r => r.id === recordId);
+                if (!record) return;
+
+                resetForm();
+                editingRecordId = recordId;
+                editingDate = dateStr;
+                document.getElementById('modalTitle').textContent = '✏️ 编辑记录';
+                document.getElementById('btnSubmit').textContent = '更新记录 ✓';
+
+                selectedCanteen = record.canteen;
+                selectedMealType = record.mealType;
+                selectedPortion = record.portion || null;
+                document.getElementById('foodNameInput').value = record.name || '';
+                document.getElementById('reviewInput').value = record.review || '';
+                document.getElementById('noteInput').value = record.note || '';
+
+                if (record.photo) {
+                    photoDataUrl = record.photo;
+                    const preview = document.getElementById('photoPreview');
+                    preview.src = record.photo;
+                    preview.style.display = 'block';
+                    document.getElementById('uploadIcon').style.display = 'none';
+                    document.getElementById('uploadText').style.display = 'none';
+                    document.getElementById('btnRemovePhoto').style.display = 'flex';
+                }
+
+                renderTagSelectors();
                 document.getElementById('modalOverlay').classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1366,6 +1396,11 @@
             }
 
             function handleSubmit() {
+                const foodName = document.getElementById('foodNameInput').value.trim();
+                if (!foodName) {
+                    showToast('⚠️ 请填写食物名称');
+                    return;
+                }
                 if (!selectedCanteen) {
                     showToast('⚠️ 请选择食堂名称');
                     return;
@@ -1377,38 +1412,64 @@
                 const review = document.getElementById('reviewInput').value.trim();
                 const note = document.getElementById('noteInput').value.trim();
 
-                const record = {
-                    id: generateId(),
-                    photo: photoDataUrl,
-                    canteen: selectedCanteen,
-                    mealType: selectedMealType,
-                    portion: selectedPortion,
-                    review: review,
-                    note: note,
-                    timestamp: Date.now(),
-                };
+                if (editingRecordId) {
+                    const records = allData[editingDate] || [];
+                    const idx = records.findIndex(r => r.id === editingRecordId);
+                    if (idx !== -1) {
+                        records[idx] = {
+                            ...records[idx],
+                            name: foodName,
+                            photo: photoDataUrl,
+                            canteen: selectedCanteen,
+                            mealType: selectedMealType,
+                            portion: selectedPortion,
+                            review: review,
+                            note: note,
+                            timestamp: records[idx].timestamp || Date.now(),
+                        };
+                        allData[editingDate] = records;
+                        saveData();
+                        closeAddModal();
+                        if (editingDate === selectedDate) {
+                            renderDayRecords();
+                        }
+                        renderCalendar();
+                        showToast('✅ 记录已更新');
+                    } else {
+                        showToast('⚠️ 记录不存在，可能已被删除');
+                    }
+                } else {
+                    const record = {
+                        id: generateId(),
+                        name: foodName,
+                        photo: photoDataUrl,
+                        canteen: selectedCanteen,
+                        mealType: selectedMealType,
+                        portion: selectedPortion,
+                        review: review,
+                        note: note,
+                        timestamp: Date.now(),
+                    };
+                    const dateStr = getTodayStr();
+                    if (!allData[dateStr]) {
+                        allData[dateStr] = [];
+                    }
+                    allData[dateStr].push(record);
+                    saveData();
 
-                const dateStr = getTodayStr();
-                if (!allData[dateStr]) {
-                    allData[dateStr] = [];
+                    selectedDate = dateStr;
+                    const today = new Date();
+                    currentYear = today.getFullYear();
+                    currentMonth = today.getMonth();
+
+                    closeAddModal();
+                    renderCalendar();
+                    renderDayRecords();
+                    showCalendarSection();
+                    showToast('✅ 已保存记录！');
                 }
-                allData[dateStr].push(record);
-                saveData();
-
-                // 如果当前选中的日期不是今天，切换到今天
-                selectedDate = dateStr;
-                const today = new Date();
-                currentYear = today.getFullYear();
-                currentMonth = today.getMonth();
-
-                closeAddModal();
-                renderCalendar();
-                renderDayRecords();
-                showCalendarSection();
-                showToast('✅ 已保存记录！');
             }
 
-            // ===== 搜索功能 =====
             function renderSearchFilters() {
                 const allCanteens = getAllCanteens();
                 const allMeals = getAllMealTypes();
@@ -1432,7 +1493,6 @@
                 fhn.innerHTML =
                     `<button class="filter-tag filter-note ${activeSearchFilters.hasNote?'active':''}" data-value="has_note">⚠️ 仅看有注意的记录</button>`;
 
-                // 绑定事件
                 fc.querySelectorAll('.filter-tag').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const val = this.getAttribute('data-value');
@@ -1478,13 +1538,11 @@
                     for (const rec of records) {
                         let match = true;
                         if (activeSearchFilters.canteen && rec.canteen !== activeSearchFilters.canteen) match = false;
-                        if (activeSearchFilters.mealType && rec.mealType !== activeSearchFilters.mealType) match =
-                            false;
-                        if (activeSearchFilters.portion && rec.portion !== activeSearchFilters.portion) match =
-                            false;
+                        if (activeSearchFilters.mealType && rec.mealType !== activeSearchFilters.mealType) match = false;
+                        if (activeSearchFilters.portion && rec.portion !== activeSearchFilters.portion) match = false;
                         if (activeSearchFilters.hasNote && !rec.note) match = false;
                         if (keyword) {
-                            const searchable = `${rec.canteen} ${rec.mealType} ${rec.portion||''} ${rec.review} ${rec.note||''}`.toLowerCase();
+                            const searchable = `${rec.name} ${rec.canteen} ${rec.mealType} ${rec.portion||''} ${rec.review} ${rec.note||''}`.toLowerCase();
                             if (!searchable.includes(keyword)) match = false;
                         }
                         if (match) {
@@ -1513,6 +1571,7 @@
                     return `
                         <div class="record-card" style="margin-top:10px;">
                             <div class="record-time" style="font-size:12px;margin-bottom:6px;color:var(--primary);font-weight:600;">📅 ${dateLabel}</div>
+                            ${rec.name ? `<div class="food-name">🍛 ${escapeHtml(rec.name)}</div>` : ''}
                             ${rec.photo ? `<img class="photo" src="${rec.photo}" alt="食物照片" loading="lazy" style="max-height:180px;">` : ''}
                             <div class="tags-row">
                                 <span class="tag tag-canteen">🏫 ${escapeHtml(rec.canteen)}</span>
@@ -1526,26 +1585,18 @@
                 }).join('');
             }
 
-            // ===== 事件绑定 =====
             function initEvents() {
-                // 日历导航
                 document.getElementById('btnPrevMonth').addEventListener('click', function() {
                     currentMonth--;
-                    if (currentMonth < 0) { currentMonth = 11;
-                        currentYear--; }
+                    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
                     renderCalendar();
-                    if (!isSearchMode) {
-                        // 不改变选中日期，但刷新记录显示
-                    }
                 });
                 document.getElementById('btnNextMonth').addEventListener('click', function() {
                     currentMonth++;
-                    if (currentMonth > 11) { currentMonth = 0;
-                        currentYear++; }
+                    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
                     renderCalendar();
                 });
 
-                // 搜索按钮
                 document.getElementById('btnSearch').addEventListener('click', function() {
                     if (isSearchMode) {
                         showCalendarSection();
@@ -1554,32 +1605,25 @@
                     }
                 });
 
-                // 返回日历按钮
                 document.getElementById('btnBackToCalendar').addEventListener('click', showCalendarSection);
 
-                // 清除搜索
                 document.getElementById('btnClearSearch').addEventListener('click', function() {
-                    activeSearchFilters = { canteen: null, mealType: null, portion: null, hasNote: false,
-                        keyword: '' };
+                    activeSearchFilters = { canteen: null, mealType: null, portion: null, hasNote: false, keyword: '' };
                     document.getElementById('searchKeyword').value = '';
                     renderSearchFilters();
                     performSearch();
                 });
 
-                // 搜索关键词输入
                 document.getElementById('searchKeyword').addEventListener('input', function() {
                     performSearch();
                 });
 
-                // 浮动加号
                 document.getElementById('fabAdd').addEventListener('click', openAddModal);
 
-                // 模态框关闭
                 document.getElementById('modalOverlay').addEventListener('click', function(e) {
                     if (e.target === this) closeAddModal();
                 });
 
-                // 照片上传
                 const photoUpload = document.getElementById('photoUpload');
                 const fileInput = document.getElementById('fileInput');
                 photoUpload.addEventListener('click', function() {
@@ -1614,7 +1658,6 @@
                     document.getElementById('fileInput').value = '';
                 });
 
-                // 自定义食堂
                 document.getElementById('btnAddCustomCanteen').addEventListener('click', function() {
                     const val = document.getElementById('customCanteenInput').value.trim();
                     if (!val) return;
@@ -1635,7 +1678,6 @@
                     }
                 });
 
-                // 自定义用餐类型
                 document.getElementById('btnAddCustomMeal').addEventListener('click', function() {
                     const val = document.getElementById('customMealInput').value.trim();
                     if (!val) return;
@@ -1656,10 +1698,8 @@
                     }
                 });
 
-                // 提交
                 document.getElementById('btnSubmit').addEventListener('click', handleSubmit);
 
-                // 键盘快捷键
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape') {
                         if (document.getElementById('modalOverlay').classList.contains('active')) {
@@ -1671,14 +1711,12 @@
                 });
             }
 
-            // ===== 初始化 =====
             function init() {
                 loadData();
                 renderCalendar();
                 renderDayRecords();
                 initEvents();
 
-                // 检查今日是否已有记录，如有则自动选中今天
                 const todayStr = getTodayStr();
                 if (allData[todayStr] && allData[todayStr].length > 0) {
                     selectedDate = todayStr;
@@ -1686,7 +1724,7 @@
                     renderDayRecords();
                 }
 
-                console.log('🍜 食堂日记已加载！');
+                console.log('🍜 这一天在FDU吃了什么 · 已加载！');
                 console.log('📅 记录日期数:', Object.keys(allData).length);
             }
 
